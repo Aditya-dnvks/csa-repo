@@ -1175,55 +1175,55 @@
 
 // Forms
 
-const formEl = document.getElementById("form");
+// const formEl = document.getElementById("form");
 
-// getElementById
-// getElementByClassName
-// getElementByTagName
-// querySelectorAll
-// querySelector -- "#", ".", "h1"
+// // getElementById
+// // getElementByClassName
+// // getElementByTagName
+// // querySelectorAll
+// // querySelector -- "#", ".", "h1"
 
-const userData = JSON.parse(localStorage.getItem("user")) || []; // array of objects
+// const userData = JSON.parse(localStorage.getItem("user")) || []; // array of objects
 
-formEl.addEventListener("click", (event) => {
-  event.preventDefault();
-  const input = document.querySelectorAll("input");
+// formEl.addEventListener("click", (event) => {
+//   event.preventDefault();
+//   const input = document.querySelectorAll("input");
 
-  const obj = {}; // single user data
+//   const obj = {}; // single user data
 
-  for (let items of input) {
-    obj[items.name] = items.value;
-  }
-  userData.push(obj);
-  localStorage.setItem("user", JSON.stringify(userData));
-  displayCards(userData);
-  //code
-});
+//   for (let items of input) {
+//     obj[items.name] = items.value;
+//   }
+//   userData.push(obj);
+//   localStorage.setItem("user", JSON.stringify(userData));
+//   displayCards(userData);
+//   //code
+// });
 
-const cardsDiv = document.getElementById("cards-div");
+// const cardsDiv = document.getElementById("cards-div");
 
-function displayCards(userData) {
-  cardsDiv.innerHTML = "";
-  for (let items of userData) {
-    const innerData = `
-<div class="border border-secondary d-flex rounded m-3">
-          <img
-            src=${items.image}
-            class="img"
-          />
-          <div class="p-1 data-container">
-            <h1 class="main-heading m-0">${items.name}</h1>
-            <p class="paragraph m-0">${items.age}</p>
-            <p class="paragraph">${items.job}</p>
-          </div>
-        </div>
-    `;
+// function displayCards(userData) {
+//   cardsDiv.innerHTML = "";
+//   for (let items of userData) {
+//     const innerData = `
+// <div class="border border-secondary d-flex rounded m-3">
+//           <img
+//             src=${items.image}
+//             class="img"
+//           />
+//           <div class="p-1 data-container">
+//             <h1 class="main-heading m-0">${items.name}</h1>
+//             <p class="paragraph m-0">${items.age}</p>
+//             <p class="paragraph">${items.job}</p>
+//           </div>
+//         </div>
+//     `;
 
-    cardsDiv.innerHTML += innerData;
-  }
-}
+//     cardsDiv.innerHTML += innerData;
+//   }
+// }
 
-displayCards(userData);
+// displayCards(userData);
 
 // const nameEl = document.getElementById("name");
 // nameEl.addEventListener("input", (e) => {
@@ -1643,13 +1643,20 @@ displayCards(userData);
 
 // async/await
 
+const mainDiv = document.getElementById("cards");
+
 const asyncFunc = async () => {
   try {
+    // mainDiv.innerHTML = `<img src="https://i.giphy.com/xTk9ZvMnbIiIew7IpW.webp" />`;
+    mainDiv.innerHTML = `<h1 class="loader"></h1>`;
+    // Activity INDICATOR -->
     const data = await fetch("https://fakestoreapi.com/products"); // GET
-    console.log(data, "first data");
     const response = await data.json();
-    console.log(response);
+
+    mainDiv.innerHTML = "";
+    createCards(response); //[]
   } catch (error) {
+    mainDiv.innerHTML = `<h1> Something went wrong</h1>`;
     console.log(error, "Error");
   } finally {
     console.log("Task completed");
@@ -1657,6 +1664,25 @@ const asyncFunc = async () => {
 };
 
 asyncFunc();
+
+const createCards = (data) => {
+  for (let i = 0; i < data.length; i++) {
+    const htmlCard = `<div class="border border-secondary rounded p-3 w-25 text-center m-3">
+        <img
+          src="${data[i].image}"
+          class="w-50"
+        />
+        <h6 class="heading mt-2">
+        ${data[i].title}
+        </h6>
+        <p class="m-0">Price: ${data[i].price}</p>
+        <p class="m-0">Rating: ${data[i].rating.rate} (${data[i].rating.count} Reviews)</p>
+        <button class="btn btn-primary mt-3">Buy now</button>
+      </div>`;
+
+    mainDiv.innerHTML += htmlCard;
+  }
+};
 
 // Loader
 // JS async/await ---> render data --- > E-commerce
