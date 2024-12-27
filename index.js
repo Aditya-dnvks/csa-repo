@@ -1645,6 +1645,7 @@
 
 const mainDiv = document.getElementById("cards");
 
+// API call ---> ? Local storage --> data key exist --> No need of API call
 const asyncFunc = async () => {
   try {
     // mainDiv.innerHTML = `<img src="https://i.giphy.com/xTk9ZvMnbIiIew7IpW.webp" />`;
@@ -1653,8 +1654,12 @@ const asyncFunc = async () => {
     const data = await fetch("https://fakestoreapi.com/products"); // GET
     const response = await data.json();
 
+    //response ---> name === "Caisual fit" ---> 20 ---> 5
+
     mainDiv.innerHTML = "";
     createCards(response); //[]
+    localStorage.setItem("data", JSON.stringify(response));
+    return response;
   } catch (error) {
     mainDiv.innerHTML = `<h1> Something went wrong</h1>`;
     console.log(error, "Error");
@@ -1688,3 +1693,23 @@ const createCards = (data) => {
 // JS async/await ---> render data --- > E-commerce
 // Promise.all  vs Promise.race()
 // event loop
+
+// localStorage ---> [{id:1}]
+// ---> [{id:1}, {id:2}]
+
+// 3 pages ---> 3html, 3CSS, 3js
+
+// const submit = { id: 2 };
+// // local ---> data = [{id:1}]
+// const data = JSON.parse(localStorage.getItem("data")) || asyncFunc();
+
+// const newData = data.push(submit);
+// localStorage.setItem("data", JSON.stringify(newData));
+
+/// React Adavtanges:
+// 1. Single Page Application (SPA)
+// 2. Componenet based architecture (resuable code)
+// 3. Diverse libraries and packages
+// 4. Virtual DOM - fast rendering
+// 5. React --- Fucntional Programming paradigm - declartive SyntaxError
+// 6. Easy to learn
